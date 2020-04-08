@@ -15,7 +15,17 @@ exports.handler = async (event) => {
   let requestWasSuccessful
 
   const startTime = timeInMs()
-  await axios.get(url)
+
+  try {
+    await axios.get(url)
+    requestWasSuccessful = true
+  } catch (e) {
+    requestWasSuccessful = false
+  } finally {
+    endTime = timeInMs()
+  }
+
+  const totalTime = endTime - startTime
 
   // Example of how to write a single data point
   // await cloudwatch.putMetricData({
@@ -35,8 +45,42 @@ exports.handler = async (event) => {
   //   Namespace: 'Udacity/Serveless'
   // }).promise()
 
-  // TODO: Record time it took to get a response
+  
   // TODO: Record if a response was successful or not
+  await cloudwatch.putMetricData({
+    MetricData: [
+      {
+        MetricName: 'Success',
+        Dimensions: [
+          {
+            Name: 'ServiceName',
+            Value: serviceName
+          }
+        ],
+        Unit: 'Count',
+        Value: requestWasSuccessful ? 1 : 0
+      }
+    ],    
+    Namespace: 'Udacity/Serverless lesson 1'
+  }).promise()
+  
+  // TODO: Record time it took to get a response
+  await cloudwatch.putMetricData({
+    MetricData: [
+      {
+        MetricName: 'Latency',
+        Dimensions: [
+          {
+            Name: 'ServiceName',
+            Value: serviceName
+          }
+        ],
+        Unit: 'Milliseconds',
+        Value: totalTime
+      }
+    ],    
+    Namespace: 'Udacity/Serverless lesson 1'
+  }).promise()
 }
 
 function timeInMs() {
