@@ -47,6 +47,7 @@ provider:
     - Effect: Allow
       Action:
         - dynamodb:query
+        - dynamodb:PutItem
       Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.IMAGES_TABLE}
     - Effect: Allow
       Action:
@@ -93,6 +94,21 @@ functions:
           method: get
           path: images/{imageId}
           cors: true
+
+  CreateImage:
+    handler: src/lambda/http/createImage.handler
+    events:
+      - http:
+          method: post
+          path: groups/{groupId}/images
+          cors: true
+          request:
+            schema:
+              application/json: ${file(models/create-image-request.json)}
+          documentation:
+            summary: Create a new image
+            description: Create a new image
+
 
 resources:
   Resources:
