@@ -1,7 +1,7 @@
 import { SNSEvent, SNSHandler, S3EventRecord } from 'aws-lambda'
 import 'source-map-support/register'
 import * as AWS from 'aws-sdk'
-import * as Jimp from 'jimp/es'
+//import * as Jimp from 'jimp/es'
 
 const s3 = new AWS.S3()
 
@@ -32,11 +32,15 @@ async function processImage(record: S3EventRecord) {
     .promise()
 
   const body = response.Body
-  const image = await Jimp.read(body)
 
-  console.log('Resizing image')
-  image.resize(150, Jimp.AUTO)
-  const convertedBuffer = await image.getBufferAsync(Jimp.AUTO)
+  //Jimp is giving error => commenting for now
+  // const image = await Jimp.read(Buffer.from(body))
+
+  // console.log('Resizing image')
+  // image.resize(150, Jimp.AUTO)
+  // const convertedBuffer = await image.getBufferAsync(image.getMIME())
+
+  const convertedBuffer = body
 
   console.log(`Writing image back to S3 bucket: ${thumbnailBucketName}`)
   await s3
