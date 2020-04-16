@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.6.1",
+    "aws-xray-sdk": "^2.5.0",
     "elasticsearch": "^16.7.1",
     "http-aws-es": "^6.0.0",
     "jimp": "^0.10.1",
@@ -19,7 +20,8 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.17",
     "@types/elasticsearch": "^5.0.36",
-    "@types/node": "^10.12.18",
+    "@types/jsonwebtoken": "^8.3.2",
+    "@types/node": "^10.14.4",
     "aws-sdk": "^2.656.0",
     "fork-ts-checker-webpack-plugin": "^3.0.1",
     "serverless-aws-documentation": "^1.1.0",
@@ -29,8 +31,8 @@
     "serverless-reqvalidator-plugin": "^1.0.3",
     "serverless-webpack": "^5.2.0",
     "ts-loader": "^5.3.3",
-    "typescript": "^3.2.4",
-    "webpack": "^4.29.0",
+    "typescript": "^3.4.1",
+    "webpack": "^4.29.6",
     "webpack-node-externals": "^1.7.2"
   },
   "author": "Shahid ul Islam",
