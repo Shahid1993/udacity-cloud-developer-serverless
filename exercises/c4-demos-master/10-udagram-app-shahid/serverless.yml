@@ -5,6 +5,18 @@ service:
 #org: your-org-name
 
 custom:
+
+  serverless-offline:
+    httpPort: 3003
+
+  dynamodb:
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+    stages:
+      - dev
+      
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
@@ -23,6 +35,8 @@ plugins:
   - serverless-webpack
   # - serverless-reqvalidator-plugin
   - serverless-aws-documentation
+  - serverless-dynamodb-local
+  - serverless-offline
 
 provider:
   name: aws
