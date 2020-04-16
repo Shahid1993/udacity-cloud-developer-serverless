@@ -16,7 +16,7 @@ custom:
       migrate: true
     stages:
       - dev
-      
+
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
@@ -35,6 +35,7 @@ plugins:
   - serverless-webpack
   # - serverless-reqvalidator-plugin
   - serverless-aws-documentation
+  - serverless-plugin-canary-deployments
   - serverless-dynamodb-local
   - serverless-offline
 
@@ -60,6 +61,11 @@ provider:
     AUTH_0_SECRET_FIELD: auth0Secret
 
   iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - codedeploy:*
+      Resource:
+        - '*'
     - Effect: Allow
       Action:
         - dynamodb:scan
@@ -132,6 +138,9 @@ functions:
           documentation:
             summary: create a new group
             description: create a new group
+    deploymentSettings:
+      type: Linear10PercentEvery1Minute
+      alias: Live
 
   GetImages:
     handler: src/lambda/http/getImages.handler
